@@ -161,7 +161,7 @@ else:
 
 keep_restart_out_dir = None
 restart_path = False
-models = exp.model_region(start=1,end=80, n_models=nmodels, n_keep=nmodels,
+models = exp.model_region(start=1,end=exp.size, n_models=nmodels, n_keep=nmodels,
     n_cpus=min(nmodels, n_cpu), 
     config=optpar,verbose=True, tool='lammps', 
 	tmp_folder=lammpsOut, timeout_job=time2,
