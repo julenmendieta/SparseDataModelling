@@ -1,0 +1,1 @@
+/home/julen/TADdyn/TADdyn_tutorial/matrices/Ery/b-globin/MatrixNormFreqFiltrd_Ery_b-globin_chr11-3795000-8500000_5000bp	0.0	0.0	200.0	300.0

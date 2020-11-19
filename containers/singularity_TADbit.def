@@ -1,0 +1,118 @@
+BootStrap: docker
+From:neurodebian:buster
+
+%help
+  minimal TADbit combined container 
+
+  https://github.com/3DGenomes/TADbit/tree/master
+
+%environment
+  LANG=C.UTF-8
+  LC_ALL=C.UTF-8
+  PATH="/usr/local/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  export PATH LANG LC_ALL
+
+%post
+
+  apt-get update --fix-missing
+  apt install -y dirmngr apt-transport-https ca-certificates software-properties-common gnupg2 wget vim
+  apt-get -y install unzip build-essential wget bzip2 libxml2-dev --no-install-recommends
+  apt-get -y install libssl-dev libcurl4-gnutls-dev libgl1-mesa-glx --no-install-recommends
+
+  #############################################################################
+  # DSRC
+
+  wget --quiet --no-check-certificate https://github.com/refresh-bio/DSRC/releases/download/v2.0.2/dsrc-linux-x64-static.tar.gz && \
+  tar xzvf dsrc-linux-x64-static.tar.gz && \
+  mv bin/dsrc /usr/local/bin && rm -f dsrc-linux-x64-static.tar.gz && chmod +x /usr/local/bin/dsrc
+
+  #############################################################################
+  # conda
+
+  echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+  wget --quiet --no-check-certificate https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh \
+       -O $HOME/miniconda.sh                                        && \
+  /bin/bash $HOME/miniconda.sh -b -p /usr/local/anaconda            && \
+  rm $HOME/miniconda.sh
+  export PATH="/usr/local/anaconda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  conda config --set always_yes yes --set changeps1 no && \
+      conda update -q conda                            && \
+      conda info -a
+
+  #############################################################################
+  # install python packages
+  conda config --add channels salilab && conda config --add channels bioconda                  && \
+      conda config --add channels hargup/label/pypi && conda config --add channels conda-forge && \
+      conda install -y -q                                                                         \
+            imp                                                                                   \
+            future                                                                                \
+            scipy                                                                                 \
+            numpy                                                                                 \
+            mcl                                                                                   \
+            matplotlib                                                                            \
+            samtools=1.10                                                                         \
+            pysam                                                                                 \
+            ucsc-bigWigToBedGraph                                                                 \
+            ucsc-wigtobigwig                                                                      \
+            gem3-mapper                                                                           \
+            zlib                                                                                  \
+            pandas                                                                                \
+            yaml                                                                                  \
+            seaborn                                                                               \
+            pyyaml										  \
+	    scikit-learn									  \
+	    seaborn										  \
+	    fastcluster 
+  pip install Pebble==4.3.10
+  # to run jupyter install it here
+  conda install -y -q jupyter
+  conda clean -y --all  && rm -rf /opt/conda/pkgs/*
+
+  #############################################################################
+  # Libraries
+  cd /.singularity.d
+
+  #############################################################################
+  # LAMMPS for modeling
+  LAMMPS_VERSION=master
+  wget --quiet --no-check-certificate https://github.com/lammps/lammps/archive/$LAMMPS_VERSION.zip && \
+    unzip $LAMMPS_VERSION.zip                                                                      && \
+    cd lammps-$LAMMPS_VERSION/src                                                                  && \
+    make yes-molecule                                                                              && \
+    cat Makefile.package | if ! grep -q 'LMP_INC'; then
+          sed -i '/^PKG_LINK_DEPENDS =.*/a LMP_INC = -DLAMMPS_EXCEPTIONS' Makefile.package; else 
+          cat Makefile.package | if ! grep -q 'DLAMMPS_EXCEPTIONS'; then  
+              sed -i 's/LMP_INC =/LMP_INC = -DLAMMPS_EXCEPTIONS /' Makefile.package; fi; fi        && \
+    make serial mode=shlib                                                                         && \
+    make install-python                                                                            && \
+    cd ../..                                                                                       && \
+    rm -f $LAMMPS_VERSION.zip
+  
+  # If you have LAMMPS issues you dont understand, here is the version i downloaded
+  #https://github.com/lammps/lammps/tree/HEAD@%7B2020-10-07%7D
+  # and the link to download the tar
+  #https://github.com/lammps/lammps/archive/bf4773c3f72388bdf4bf5fd1fa1a888f4954cc10.zip
+  #############################################################################
+  # GEM3    ####      ONLY WHILE WE ALSO WANT GEM2 INSTALLED      ####
+  mv /usr/local/anaconda/bin/gem-mapper /usr/local/anaconda/bin/gem3-mapper   && \
+  mv /usr/local/anaconda/bin/gem-indexer /usr/local/anaconda/bin/gem3-indexer && \
+  mv /usr/local/anaconda/bin/gem-retriever /usr/local/anaconda/bin/gem3-retriever
+
+  #############################################################################
+  # TADdyn
+  wget --quiet --no-check-certificate https://github.com/3DGenomes/TADbit/archive/master.zip && \
+      unzip master.zip                                                                       && \
+      cd TADbit-master                                                                       && \
+      python setup.py install                                                                && \
+      cd ..                                                                                  && \
+      rm -f master.zip                                                                       && \
+      rm -rf TADbit-master
+
+  ############################################################################
+  # Clean
+  rm -rf /var/lib/apt/lists/*
+%runscript
+  echo "Wecome to TADdyn and R Singularity container"
+  exec /bin/bash --norc
+  # to run jupyter just call it like this 
+  # singularity exec /PATH/TO/CONTAINER/singularity_TADdynLong_jupyter.sif jupyter notebook --port=8888 --notebook-dir=/PATH/IN/YOUR/PC

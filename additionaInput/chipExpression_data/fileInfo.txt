@@ -1,0 +1,1 @@
+Files with the average peak coordiantes (start + end)/2 of different chromatin marks in the 3 cells
