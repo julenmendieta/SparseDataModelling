@@ -16,12 +16,48 @@ import scipy.stats as stats
 import scipy.cluster.hierarchy as sch
 from scipy.stats.mstats import zscore
 from pytadbit.modelling.structuralmodels  import load_structuralmodels
+from taddyn import Chromosome
+from taddyn.modelling.impoptimizer  import IMPoptimizer
 from math import sqrt
 import os
 import sys
 sys.path.append('.')
+import metrics
 from scipy.stats import linregress
 from scipy.stats import spearmanr
+
+
+def optimPlot1(matPath, optimPath, nmodels = 100, nkeep = 100):
+    res = int(matPath.split('_')[-1][:-2])
+
+
+    ## get all final Optimisation files in matrix folder
+    optFpath = []
+    optFiles = os.listdir(optimPath)
+    for opt in optFiles:
+            if opt.startswith('ValOptimisation') and not opt.endswith('pdf'):
+                    optFpath.append(optimPath + opt)
+
+    ## create experiment object
+    test_chr = Chromosome(name='Test',centromere_search=False,
+                          species='Homo sapiens', assembly='na')#, max_tad_size=260000)
+    # If interaction index and not matrix
+    test_chr.add_experiment('test',exp_type='Hi-C', resolution=res,
+                             norm_data=matPath)
+    exp = test_chr.experiments[0]
+
+    ## Filter data
+    metrics.PCHiC_filtering(exp)
+
+    ## Plot
+    for opt in optFpath:
+        print opt
+        optim=IMPoptimizer(exp,start=1, end=exp.size, close_bins=1, n_models=nmodels, n_keep=nkeep)
+        optim.load_from_file(opt)
+        print optim.get_best_parameters_dict()
+        optim.plot_2d(savefig=opt[:-3]+'pdf',show_best=10)#[0.2,0.8])#skip={'maxdist':2000}
+
+        plt.show()
 
 
 # Plot HiC matrix in a way we can store it in subplots

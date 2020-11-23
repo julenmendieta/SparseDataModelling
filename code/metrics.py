@@ -2,6 +2,7 @@ from math                           import sqrt
 import numpy as np
 import itertools
 from pytadbit.modelling.structuralmodels  import load_structuralmodels,StructuralModels
+from pytadbit.modelling.structuralmodel import StructuralModel
 from pytadbit.modelling.impmodel import IMPmodel
 import os
 import copy
@@ -16,6 +17,7 @@ from pysam                           import AlignmentFile
 from collections                     import OrderedDict
 from pytadbit                     import HiC_data
 from pytadbit.parsers.hic_bam_parser import filters_to_bin
+import cPickle as pickle
 
 
 ## Normalisation part
@@ -315,6 +317,178 @@ def getCaptures(allPdir, chrom, regionStart, regionEnd, resol,
                             else:
                                 print i
     return promList
+
+
+## optimisation ##
+def cToDot(text):
+    newText = ''
+    for t in text:
+        if t == 'c':
+            newText += '.'
+        elif t == 'n':
+            newText += '-'
+        else:
+            newText += t
+    return newText
+
+def dotToC(text):
+    newText = ''
+    for t in text:
+        if t == '.':
+            newText += 'c'
+        elif t == '-':
+            newText += 'n'
+        else:
+            newText += t
+    return newText
+
+def getParamCombi(lowfreq_arange, m_range, c_rangeDot, upfreq_range, 
+                 scriptsPath, dcutoff_range, matPath, jobTime, nmodels,
+                 tempOut, cpu=False):
+    # Create a counter for the different lammps output directories
+    allCombi = []
+    ## Create the file with the commands to be run in the array
+    #fout=open(runfile,'w')
+    for x in lowfreq_arange:
+        for m in m_range:
+            # check if we have a dcutoff small enough compared to maxdist to allow running
+            # we allow an overlap of 50nm between maxdist and dcutoff
+            if m - float(cToDot(c_rangeDot).split('_')[0]) >= -50:
+                for u in upfreq_range:
+                    if u >= x:
+                        cmd=''
+                        cmd+='%s01_NR_optimisation.py -l %s '%(scriptsPath, x)
+                        cmd+= '-d %s '%c_rangeDot
+                        cmd+= '-m %s '%m
+                        cmd+= '-u %s '%u
+                        cmd+= '-p %s '%matPath
+                        cmd+= '-t %s '%jobTime
+                        cmd+= '-nm %s '%str(nmodels)
+                        if cpu != False:
+                            cmd+= '-cpu %s '%str(cpu)
+                        cmd+= '-tp %s'%(tempOut)
+                        #cmd+= '\n'
+                        allCombi += [cmd]
+                        #fout.write(cmd)
+    #fout.close()
+    return allCombi
+
+def stimateTime(nparticle):
+    return 0.001*nparticle**2 + (-0.135*nparticle) + 48.116
+
+
+def PCHiC_filtering(exp, index=0):
+    zeros = {}
+    for i in range(exp.size):
+        lineAdd = 0
+        for j in xrange(exp.size):
+            lineAdd += exp.norm[index]['matrix'].get(i * exp.size + j, 0)
+        if lineAdd == 0:
+            zeros[i] = 0
+    exp._zeros = [zeros]
+
+
+def getModellingCommand(GeneralOptimOutPath, tempOut, jobTime,
+                       nmodels, ncpu, outputAppart, scriptsPath, step=1):
+    
+    cmds = []
+    times = 0
+    with open(GeneralOptimOutPath + 'modellinParams.txt', 'r') as f:
+        for line in f:
+            if len(line) != 0:
+                line = line.split()
+                for ste in range(step):
+                    nmodels2 = nmodels / step
+                    if ste == step - 1:
+                        nmodels2 += nmodels % step                    
+                    
+                    matPath = line[0]
+                    lowfreq = line[1]
+                    upfreq = line[2]
+                    d_cutoff= line[3]
+                    maxdist= line[4]
+                    
+                    # modify tempout accordingly
+                    try:
+                        iniStep = int(tempOut.split('_')[-1])
+                        tempOut = '_'.join(tempOut.split('_')[:-1]) + '_%s' %(ste + iniStep + 1)
+                    except:
+                        tempOut = tempOut + '_%s' %(ste + 1)
+
+                    # get the parameters
+                    cmd = '-l %s -d %s -m %s -u %s -lf %s -p %s -t %s -nm %s -ncpu %s' %(
+                                                lowfreq,
+                                                d_cutoff,
+                                                maxdist,
+                                                upfreq,
+                                                tempOut,
+                                                matPath,
+                                                jobTime,
+                                                nmodels2,
+                                                ncpu)
+                    if outputAppart == True:
+                        pathOut = '/'.join(matPath.split('/')[:-4] + 
+                                           ['models'] + 
+                                           matPath.split('/')[-3:-1]) + '/'
+                        cmd += ' -po %s' %pathOut
+
+                    # add the paths
+                    cmd = '%s03_NR_runmodelling.py %s' %(scriptsPath, cmd)
+                    cmds += [cmd]
+                    
+                    # get number of particles and models for timing
+                    _, start, end = matPath.split('/')[-1].split('_')[3].split('-')
+                    resol = int(matPath.split('/')[-1].split('_')[-1][:-2])
+                    longi = ((int(end) - int(start)) / resol) + 1
+                    time = (stimateTime(longi) * nmodels2) / min(ncpu, nmodels2)
+                    times += time
+    return cmds, times
+    
+
+def taddynToTadbit(fi):
+    with open(fi, 'rb') as pickle_file:
+        ensemble_of_models = pickle.load(pickle_file)
+    if len(ensemble_of_models['stages']) == 0:
+        models_stage = dict((i, StructuralModel(ensemble_of_models['models'][mod]))
+                        for i, mod in enumerate(ensemble_of_models['models']))
+        model1 =StructuralModels(
+                ensemble_of_models['loci'], models_stage, {}, 
+                resolution=ensemble_of_models['resolution'], original_data=ensemble_of_models['original_data'],
+                zscores=ensemble_of_models['zscores'][0], config=ensemble_of_models['config'],
+                zeros=ensemble_of_models['zeros'][0],restraints=ensemble_of_models['restraints'])
+        
+        # if naming is like in defined format will try to recover some info
+        fi2 = fi.split('/')[-1]
+        if len(fi2.split('_')) == 3 and '_C' in fi2 and 'Res' in fi2:
+            cell = fi2.split('_')[0]
+            resol = fi2.split('Res')[-1].split('.')[0]
+            region = fi2.split('_')[1]
+            identifier = '%s_%s' %(cell, region)
+        else:
+            resol = 0
+            identifier = 'NA'
+            cell = 'NA'
+            region = 'NA'
+    
+        # Define description and set index values
+        description = {'identifier'        : identifier,
+                       'chromosome'        : ['NA'],
+                       'start'             : [0],
+                       'end'               : [0],
+                       'species'           : 'NA',
+                       'restriction enzyme': 'NA',
+                       'cell type'         : cell,
+                       'experiment type'   : region,
+                       'resolution'        : resol,
+                       'assembly'          : 'NA'}
+        
+        for nmo, mo in enumerate(model1):
+            # change rand_init values for actual index and add descriptions
+            mo['index'] = nmo
+            mo['description'] = description
+            
+    
+    return model1
 
 
 ##
