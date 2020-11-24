@@ -27,7 +27,8 @@ from scipy.stats import linregress
 from scipy.stats import spearmanr
 
 
-def optimPlot1(matPath, optimPath, nmodels = 100, nkeep = 100):
+def optimPlot1(matPath, optimPath, nmodels = 100, nkeep = 100,
+                ductoff = False):
     res = int(matPath.split('_')[-1][:-2])
 
 
@@ -36,6 +37,9 @@ def optimPlot1(matPath, optimPath, nmodels = 100, nkeep = 100):
     optFiles = os.listdir(optimPath)
     for opt in optFiles:
             if opt.startswith('ValOptimisation') and not opt.endswith('pdf'):
+                if ductoff != False and 'C%s' %ductoff in opt:
+                    optFpath.append(optimPath + opt)
+                elif ductoff == False:
                     optFpath.append(optimPath + opt)
 
     ## create experiment object
@@ -51,10 +55,10 @@ def optimPlot1(matPath, optimPath, nmodels = 100, nkeep = 100):
 
     ## Plot
     for opt in optFpath:
-        print opt
+        #print opt
         optim=IMPoptimizer(exp,start=1, end=exp.size, close_bins=1, n_models=nmodels, n_keep=nkeep)
         optim.load_from_file(opt)
-        print optim.get_best_parameters_dict()
+        #print optim.get_best_parameters_dict()
         optim.plot_2d(savefig=opt[:-3]+'pdf',show_best=10)#[0.2,0.8])#skip={'maxdist':2000}
 
         plt.show()
@@ -862,11 +866,6 @@ def radialPlot(histdict, region, valRange, markOrder='', timesEach=7, nylabels=1
         for i in range(timesEach):
             zs.append(values)
     
-
-
-
-
-
     fig, ax2 = plt.subplots(ncols=1, subplot_kw=dict(projection='polar'), figsize=(10,10))
     #fig = plt.figure(figsize=(10,10))
     #plt.polar()
@@ -925,7 +924,7 @@ def radialPlot(histdict, region, valRange, markOrder='', timesEach=7, nylabels=1
     labpos = timesEach / 2
     angles = [ angles[n + labpos] for n in range(0, len(angles) - 1, timesEach)]
     # Add x labels  
-    plt.xticks(angles, newMarks)
+    plt.xticks(angles, newMarks, fontsize=18)
 
 
     #ax2.set_ylim([0, 1])
@@ -1361,8 +1360,8 @@ def getMarkerDistribution(cdistDict, cdistDictMean, covDict, statsCov, marks, re
                 #print k, piece, 'removed'
                 histdict2[k][piece] = 0
     
-    print 'YOY SHOULD CHANGE THE PART THAT COLLAPSES RADIUS SMALLER IN DIFFERENCE THAN 1NM'
-    print 'AT LEAST SHOW A WARNING OR STOP IN THERE'
+    #print 'YOY SHOULD CHANGE THE PART THAT COLLAPSES RADIUS SMALLER IN DIFFERENCE THAN 1NM'
+    #print 'AT LEAST SHOW A WARNING OR STOP IN THERE'
     if maxRadi == False:
         return histdict2, valRange, noData, (histdict, histdictMean) # ,histdictContinuous, histdictContinuousMean)
     else:
@@ -1458,8 +1457,9 @@ def getRadialPlot(selected, signalValues, outplot, regi,  orderCell, models, mod
                 if saveFig:
                     pdf.savefig( fig, bbox_inches='tight')
 
-            print 'Positions of infinite values: '
-            print infinites
+            if len(infinites) != 0:
+                print 'We found infinite values at these positions: '
+                print infinites
             if saveFig:
                 pdf.close()
 
@@ -1479,7 +1479,7 @@ def expressionBoxplot(distancesAll, orderCell, colors, pdf=None):
 
             f = plt.figure(figsize=(10,10))
             sns.boxplot(x='cell', y='Particle distances', data = dataframe, order = orderCell)
-            plt.title('Distance distribution from %s to all the bins with expression', fontsize=15)
+            plt.title('Distance distribution from %s to all the bins with signal' %geneName, fontsize=15)
             plt.xticks(fontsize=15)
             plt.yticks(fontsize=15)
             plt.xlabel('Cell', fontsize=20)

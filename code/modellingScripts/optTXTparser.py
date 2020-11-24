@@ -18,7 +18,6 @@ pathIn = args.pathIn
 path = args.pathOut
 join = args.joinWithOld
 
-print '#' * 30
 print path
 
 # get data from previous files
