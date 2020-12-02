@@ -20,9 +20,9 @@ TADbit:
 singularity exec singularity_TADbit.sif jupyter notebook --port=8888 --notebook-dir=/PATH/TO/NOTEBOOKS
 
 ### Installing TADdyn and TADbit in your computer
-TADdyn can be installed following the steps in here:  
+TADdyn can be installed following the steps here:  
 https://github.com/3DGenomes/TADdyn  
-TADbit can be installed following the steps in here:  
+TADbit can be installed following the steps here:  
 https://github.com/3DGenomes/TADbit  
 
 You will need to install the following additional python libraries for data analysis and plotting. These libraries are included in the provided singularity recipes and containers, but are absent in the installation instructions from 3Dgenomes.  
@@ -45,13 +45,13 @@ Finally:
 
 
 ## Folder structure
--"additionalInput" folder contains text files with additional data to be loaded, like enhancer and promoter coordinates, and methylation  or gene expression data.  
+-"additionalInput" folder contains text files with additional data to be loaded, like enhancer and promoter coordinates, and methylation or gene expression data.  
 -"code" folder contains sets of python 2 functions that will be using in the Notebooks.  
 -"containers" folder contains the recipes for building the Singularity environments of both TADdyn and TADbit.  
 -"jupyterNotebooks" folder contains the Notebooks used for the modelling and analysis of the pcHi-C datasets.  
 -"matrices" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region defined in the interaction matrix. Inside ...matrices/cellID/regionID/ we will find its correspondent interaction matrix.  
 -"models" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region defined in the .models file. Inside ...models/cellID/regionID/ we will find its correspondent .models file.  
--"optimization" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region. Inside ...optimization/cellID/regionID/ we will find its correspondent otimization output files, that will be used in "02_chooseBestParameters.ipynb" to define the best modelling parameters per each cell and region combination.  
+-"optimization" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region. Inside ...optimization/cellID/regionID/ we will find its correspondent optimization output files, that will be used in "02_chooseBestParameters.ipynb" to define the best modelling parameters per each cell and region combination.  
 -"outData" folder contains the output files generated during the analysis.  
 -"outPlot" folder contains the plot pdf files generated during the analysis.  
 
