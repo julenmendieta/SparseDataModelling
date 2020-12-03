@@ -9,12 +9,27 @@ Intermediate files and additional information are also included.
 
 To start using this Git, enter the "jupyterNotebooks" folder and run the Notebooks inside each sub-directory following the numerical order (Python 2).  
 
+## Before runnin the Notebooks:
+Download the model files and additional data that could not be uploaded to GitHub.  
+-Using the browser:  
+Download the following two zip files, and unzip them by merging the output "models" and "outData" folders with the existent ones:  
+https://www.dropbox.com/s/h718iid33lq41hx/models.zip?dl=0  
+https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0  
+  
+-Using the terminal:  
+```
+wget -O models.zip https://www.dropbox.com/s/h718iid33lq41hx/models.zip?dl=0 ; unzip -o models.zip   
+wget -O outData.zip https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0 ; unzip -o outData.zip   
+```
+
+
+
 ## Running the Notebooks:  
 ### Using Singularity containers
 In case is needed, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. The actual containers can be downloaded from:   
 https://www.dropbox.com/sh/uz7iikid2w9wv0d/AADPVGm4dMIiv2OtROEFakEJa?dl=0
 
-To open the Notebooks we could use the following commands with each of them:  
+To open the Notebooks you can use the following commands with each of them:  
 TADdyn:  
 singularity exec singularity_TADdyn.sif jupyter notebook --port=8888 --notebook-dir=/PATH/TO/NOTEBOOKS  
 TADbit:  
@@ -27,6 +42,7 @@ TADbit can be installed following the steps here:
 https://github.com/3DGenomes/TADbit  
 
 You will need to install the following additional python libraries for data analysis and plotting. These libraries are included in the provided singularity recipes and containers, but are absent in the installation instructions from 3Dgenomes.  
+
 For TADdyn:  
 -seaborn  
    
@@ -47,6 +63,7 @@ Finally:
 
 ## Folder structure
 -"additionalInput" folder contains text files with additional data to be loaded, like enhancer and promoter coordinates, and methylation or gene expression data.  
+-"bamfiles" folder contains one level of subfolders stating the cell ID. Inside ...bamfiles/cellID/ we should store its correspondent sorted .bam file and the associated index .bai file. This repository does not provide any bam file due to the large size of the files.  
 -"code" folder contains sets of python 2 functions that will be using in the Notebooks.  
 -"containers" folder contains the recipes for building the Singularity environments of both TADdyn and TADbit.  
 -"jupyterNotebooks" folder contains the Notebooks used for the modelling and analysis of the pcHi-C datasets.  
