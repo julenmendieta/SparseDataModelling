@@ -9,7 +9,7 @@ Intermediate files and additional information are also included.
 
 To start using this Git, enter the "jupyterNotebooks" folder and run the Notebooks inside each sub-directory following the numerical order (Python 2).  
 
-## Before runnin the Notebooks:
+## Before running the Notebooks:
 Download the model files and additional data that could not be uploaded to GitHub.  
 -Using the browser:  
 Download the following two zip files, and unzip them by merging the output "models" and "outData" folders with the existent ones:  
