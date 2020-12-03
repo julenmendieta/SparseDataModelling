@@ -1,12 +1,13 @@
-# TADdyn_tutorial
-We provide IPython Notebooks (in jupyterNotebooks) containing all the steps from the obtention of the interest interaction matrices from BAM files, to their normalisation, modelling, and further analysis. As it was done in:  
+# Sparse Data Modelling
+We provide IPython Notebooks (in "jupyterNotebooks" folder) containing the code to perform each step of the analysis in:  
 **3D reconstruction of genomic regions from sparse interaction data**.  
 Julen Mendieta-Esteban, Marco Di Stefano, David Castillo, Irene Farabella, and Marc A Marti-Renom.  
-https://www.biorxiv.org/content/10.1101/2020.10.11.334847v1.full.pdf
+https://www.biorxiv.org/content/10.1101/2020.10.11.334847v1.full.pdf  
+from the extraction of the interaction matrix of interest from the BAM file, to matrix normalisation, modelling, and models analysis.  
 
 Intermediate files and additional information are also included.
 
-To start using this Git, go to jupyterNotebooks folder and run the notebooks inside of the folders in numeric order with Python 2.
+To start using this Git, enter the "jupyterNotebooks" folder and run the Notebooks inside each sub-directory following the numerical order (Python 2).  
 
 ## Running the Notebooks:  
 ### Using Singularity containers
