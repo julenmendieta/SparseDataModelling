@@ -63,6 +63,7 @@ Finally:
 
 ## Folder structure
 -"additionalInput" folder contains text files with additional data to be loaded, like enhancer and promoter coordinates, and methylation or gene expression data.  
+-"bamfiles" folder contains one level of subfolders stating the cell ID. Inside ...bamfiles/cellID/ we should store its correspondent sorted .bam file and the associated index .bai file. This repository does not provide any bam file due to the large size of the files.  
 -"code" folder contains sets of python 2 functions that will be using in the Notebooks.  
 -"containers" folder contains the recipes for building the Singularity environments of both TADdyn and TADbit.  
 -"jupyterNotebooks" folder contains the Notebooks used for the modelling and analysis of the pcHi-C datasets.  
