@@ -244,7 +244,7 @@ def getElementCoordinates(regionsAll, regiones, enhanFile,
 
 # Function to get markers for linealPlot
 def createMarkers(enhAll, promAll, regiones, orderCell,
-                 signalData, thresshold=0, getFullExp=False):
+                 signalData, threshold=0, getFullExp=False):
 
     ## We add enhancers and promoters in a marker list
     markers = {}
@@ -390,7 +390,7 @@ def loadSignalFile(signalDataFolder, regiones, orderCell,
     return signalValues
 
 
-def getSignalAndPos(regiones, orderCell, signalData, signalThresshold=0):
+def getSignalAndPos(regiones, orderCell, signalData, signalThreshold=0):
     newSignal = {}
     newSignalPos = {}
     for regi in regiones:

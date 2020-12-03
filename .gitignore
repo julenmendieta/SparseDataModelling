@@ -1,4 +1,7 @@
 *.ipynb_checkpoints
 .*
+*.bam
+*.bai
+*.pyc
 !.gitignore
 !.gitattributes
