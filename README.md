@@ -12,7 +12,7 @@ To start using this Git, enter the "jupyterNotebooks" folder and run the Noteboo
 ## Before runnin the Notebooks:
 Download the model files and additional data that could not be uploaded to GitHub.  
 -Using the browser:  
-Download the following two zip files, and unzip them by merging the output "models" and "outData" folders with the existent ones:
+Download the following two zip files, and unzip them by merging the output "models" and "outData" folders with the existent ones:  
 https://www.dropbox.com/s/h718iid33lq41hx/models.zip?dl=0  
 https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0  
   
@@ -29,7 +29,7 @@ wget -O outData.zip https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0 ;
 In case is needed, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. The actual containers can be downloaded from:   
 https://www.dropbox.com/sh/uz7iikid2w9wv0d/AADPVGm4dMIiv2OtROEFakEJa?dl=0
 
-To open the Notebooks we could use the following commands with each of them:  
+To open the Notebooks you can use the following commands with each of them:  
 TADdyn:  
 singularity exec singularity_TADdyn.sif jupyter notebook --port=8888 --notebook-dir=/PATH/TO/NOTEBOOKS  
 TADbit:  
