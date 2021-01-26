@@ -52,20 +52,31 @@ For TADbit:
 -sklearn  
 
 ### Notebooks ordering and programs used for them
-The ordering to run the Notebooks is stated in the numbers at the beginning of their names.  
+The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in jupyterNotebooks. The same rule is valid for the Notebooks located inside. In this way we would run the Notebooks in the following order if we would have a bam file as an starting point.  
 First:  
-01_inputData scripts are executed with TADbit  
+"01_inputData". Notebooks have to be executed with TADbit  
 Then:  
-02_modelling scripts are executed with TADdyn  
+"02_modelling". Notebooks have to be executed with TADdyn  
 Finally:  
-03_modelAnalysis scripts are executed with TADbit  
+"03_modelAnalysis". Notebooks have to be executed with TADbit  
+  
+Depending on our starting data we can avoid some steps. In this way, if we would already have the interaction matrices files we would start from "02_modelling", and if we would already had the models and just wanted to analyse them we would start from "03_modelAnalysis".  
 
+### Testing that the modelling works well
+Users can set as True the variable "runFastTest" in "01_modellingParametersGridSearch" and "03_modelling.ipynb" to test in a short time that the code for the modelling is working well.  
+
+## Using a cluster to run the modelling
+The most time consuming steps in this repository are the ones involving 01_inputData and 02_modelling. For this reason some users might want to run them in a cluster so that more resources can be allocated for the task. Hence, the code needed for these steps has been stored in the "codeScripts" folder as a set of scripts that can be executed in the terminal and hence submited to a job queue.  
+
+NOTE: For a matter of consistency the code of the scripts in "codeScripts" is the same as the one found in the Notebooks (with minor differences). The only change that users have to note is that the section with the variables to be modified has been moved to the beggining of the script.
 
 ## Folder structure
 -"additionalInput" folder contains text files with additional data to be loaded, like enhancer and promoter coordinates, and methylation or gene expression data.  
 -"bamfiles" folder contains one level of subfolders stating the cell ID. Inside ...bamfiles/cellID/ we should store its correspondent sorted .bam file and the associated index .bai file. This repository does not provide any bam file due to the large size of the files.  
 -"code" folder contains sets of python 2 functions that will be using in the Notebooks.  
+-"codeScripts" folder contains the scripts involving the Notebooks from "01_inputData" and "02_modelling" so that this steps can be ran in a cluster.  
 -"containers" folder contains the recipes for building the Singularity environments of both TADdyn and TADbit.  
+-"fastTest" folder contains an small interaction matrix to test that the optimisation and modelling steps work well.  
 -"jupyterNotebooks" folder contains the Notebooks used for the modelling and analysis of the pcHi-C datasets.  
 -"matrices" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region defined in the interaction matrix. Inside ...matrices/cellID/regionID/ we will find its correspondent interaction matrix.  
 -"models" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region defined in the .models file. Inside ...models/cellID/regionID/ we will find its correspondent .models file.  
