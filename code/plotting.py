@@ -8,16 +8,23 @@ import matplotlib.patches as patch
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.colors import LinearSegmentedColormap
 from scipy.spatial import distance
-import fastcluster
-from fastcluster import linkage
+try:
+    import fastcluster
+    from fastcluster import linkage
+    from pytadbit.modelling.structuralmodels  import load_structuralmodels
+except:
+    print 'Some libraries werent loaded. Is ok if using TADdyn alone'
+try:
+    from taddyn import Chromosome
+    from taddyn.modelling.impoptimizer  import IMPoptimizer
+except:
+    print 'Some libraries werent loaded. Is ok if using TADbit alone'
 import matplotlib.backends.backend_pdf
 from scipy.cluster.hierarchy import dendrogram
 import scipy.stats as stats
 import scipy.cluster.hierarchy as sch
 from scipy.stats.mstats import zscore
-from pytadbit.modelling.structuralmodels  import load_structuralmodels
-from taddyn import Chromosome
-from taddyn.modelling.impoptimizer  import IMPoptimizer
+
 from math import sqrt
 import os
 import sys
@@ -28,7 +35,7 @@ from scipy.stats import spearmanr
 
 
 def optimPlot1(matPath, optimPath, nmodels = 100, nkeep = 100,
-                ductoff = False):
+                ductoff = False, outOff=False):
     res = int(matPath.split('_')[-1][:-2])
 
 
@@ -61,7 +68,10 @@ def optimPlot1(matPath, optimPath, nmodels = 100, nkeep = 100,
         #print optim.get_best_parameters_dict()
         optim.plot_2d(savefig=opt[:-3]+'pdf',show_best=10)#[0.2,0.8])#skip={'maxdist':2000}
 
-        plt.show()
+        if outOff == True:
+            plt.ioff()
+        else:
+            plt.show()
 
 
 # Plot HiC matrix in a way we can store it in subplots

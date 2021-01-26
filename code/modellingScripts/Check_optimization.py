@@ -4,7 +4,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
 import numpy as np
-import argparse
+import matplotlib.backends.backend_pdf
 
 def getTopModels(paths, topCor = {}, action='w', jobTime=False,
                 outpath='./', dcut='', maxd1=''):
@@ -99,8 +99,8 @@ def getTopModels(paths, topCor = {}, action='w', jobTime=False,
     return topCor
 
 def ploter(infodict, label1, label2='', id1='', minVal = 0.1,
-            topd={}):
-    fig = plt.figure(figsize=(20,5))
+            topd={}, saveFig=False, outOff=False):
+    fig, ax = plt.subplots(1,1, figsize=(20,5))
     keys = sorted(infodict.keys())
     allkeys = []
     allvalue = []
@@ -119,7 +119,7 @@ def ploter(infodict, label1, label2='', id1='', minVal = 0.1,
         #                                data=pd_dat, order=keys,
         #                inner='stick')
         sns.stripplot(x=label1, y="Correlation",
-                                        data=pd_dat, order=keys)
+                                    data=pd_dat, order=keys, ax=ax)
 
         # Get maximum correlation and draw line
         maxi = max(allvalue)
@@ -149,13 +149,21 @@ def ploter(infodict, label1, label2='', id1='', minVal = 0.1,
                 posi = nal
         plt.axvline(posi, color='blue', linestyle='--')
 
-        plt.ioff()
+        if saveFig != False:
+            fig.savefig(saveFig, bbox_inches='tight')
+        #if pdf != None:
+        #    pdf.savefig(fig, bbox_inches='tight')
+
+        if outOff == True:
+            plt.ioff()
+
     else:
         print 'No files with correlation in %s' %id1
+    #return pdf
 ##############################################################
 
 def checkAll(outpath, inpaths, show_dcut=False, dcut=False, topModels=False,
-                chunkSize=False):
+                savePath=False, outOff=False):
 
     ###########################################
     # minimal value of correlation to be accepted
@@ -175,6 +183,10 @@ def checkAll(outpath, inpaths, show_dcut=False, dcut=False, topModels=False,
     # Show distribution by distance cutoffs
     topd = {}
     if show_dcut == True:
+        if savePath != False:
+            saveFig = savePath + 'Optim_dcutoff.pdf'
+            #pdf = matplotlib.backends.backend_pdf.PdfPages(saveFig)
+
         topCor = {}
         for path in optimFiles:
             
@@ -215,20 +227,25 @@ def checkAll(outpath, inpaths, show_dcut=False, dcut=False, topModels=False,
 
                 ## Plot dcutoff
                 ploter(dcuts, label1='Distance cutoffs', minVal=minVal,
-                        id1=id1, topd=topd)
+                        id1=id1, topd=topd, saveFig=saveFig, outOff=False)
             
             else:
                 print 'No files in %s' %id1
+        #if savePath != False:
+        #    pdf.close()
 
         for dc in sorted(topd):
             print '%s\t%s' %(dc, topd[dc])
-        plt.show()
+        #plt.show()
 
 
     # show maxdist distributions of the model correlations at selected dcutoff
     # Next we should check in the selected dcutoff which is the best maxdist
     topd = {}
     if dcut != False:
+        if savePath != False:
+            saveFig = savePath + 'Optim_maxdist.pdf'
+            #pdf = matplotlib.backends.backend_pdf.PdfPages(saveFig)
         topCor = {}
         for path in optimFiles:
             id1 = '%s_%s' %(path.split('/')[-3], path.split('/')[-2])
@@ -273,14 +290,15 @@ def checkAll(outpath, inpaths, show_dcut=False, dcut=False, topModels=False,
 
                 ## Plot maxdist
                 ploter(maxd, label1='Maxdist', label2='with dcutoff %s'%dcut,
-                                minVal=minVal, id1=id1, topd=topd)
+                                minVal=minVal, id1=id1, topd=topd, saveFig=saveFig)
 
             else:
                 print 'No files in %s' %id1
-
+        #if savePath != False:
+        #    pdf.close()
         for md in sorted(topd):
             print '%s\t%s' %(md, topd[md])
-        plt.show()
+        #plt.show()
 
 
 

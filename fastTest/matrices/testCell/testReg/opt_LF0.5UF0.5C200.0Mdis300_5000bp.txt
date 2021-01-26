@@ -1,0 +1,3 @@
+## n_models: 11 n_keep: 25 close_bins: 1
+# scale	kbending	max_dist	low_freq	up_freq	dcutoff	correlation
+  0.01 	0       	300     	0.5     	0.5    	200    	0.7489894246787535

@@ -1,0 +1,1 @@
+/home/julen/TADdyn/SparseDataModelling/fastTest/matrices/testCell/testReg/MatrixNormFreqFiltrd_testCell_testReg_chr8-132755000-133555000_5000bp	0.0	0.0	200.0	300.0

@@ -1,22 +1,25 @@
 from math                           import sqrt
 import numpy as np
 import itertools
-from pytadbit.modelling.structuralmodels  import load_structuralmodels,StructuralModels
-from pytadbit.modelling.structuralmodel import StructuralModel
-from pytadbit.modelling.impmodel import IMPmodel
-import os
+try:
+    from pytadbit.modelling.structuralmodels  import load_structuralmodels,StructuralModels
+    from pytadbit.modelling.structuralmodel import StructuralModel
+    from pytadbit.modelling.impmodel import IMPmodel
+    from pytadbit                     import HiC_data
+    from pytadbit.parsers.hic_bam_parser import filters_to_bin
+    from sklearn.metrics import calinski_harabaz_score
+except:
+    print('TADbit libraries not loaded, is ok if working with TADdyn alone')
+import os, sys
 import copy
 from os import listdir
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as linkage_sci
-from sklearn.metrics import calinski_harabaz_score
 from collections import defaultdict
 import warnings
 # norm part
 from pysam                           import AlignmentFile
 from collections                     import OrderedDict
-from pytadbit                     import HiC_data
-from pytadbit.parsers.hic_bam_parser import filters_to_bin
 import cPickle as pickle
 
 
@@ -399,6 +402,9 @@ def getModellingCommand(GeneralOptimOutPath, tempOut, jobTime,
                 line = line.split()
                 for ste in range(step):
                     nmodels2 = nmodels / step
+                    if nmodels2 == 0:
+                        sys.exit('There are more steps than models')
+
                     if ste == step - 1:
                         nmodels2 += nmodels % step                    
                     
