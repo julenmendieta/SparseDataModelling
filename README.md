@@ -28,7 +28,7 @@ wget -O outData.zip https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0 ;
 
 ## Running the Notebooks:  
 ### Using Singularity containers
-Some user might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. The actual containers can be downloaded from:   
+Some user might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the [Singularity](https://singularity.lbl.gov/) container recipes for TADdyn and TADbit are available in the "containers" folder. The actual containers can be downloaded from:   
 https://www.dropbox.com/sh/uz7iikid2w9wv0d/AADPVGm4dMIiv2OtROEFakEJa?dl=0
 
 To open the Notebooks you can use the following commands with each of them:  
