@@ -1,13 +1,15 @@
 # Sparse Data Modelling
-We provide IPython Notebooks (in "jupyterNotebooks" folder) containing the code to perform each step of the analysis in:  
+We provide [IPython Notebooks](https://jupyter.org/) (in "jupyterNotebooks" folder) containing the code to perform each step of the analysis in:  
+    
 **3D reconstruction of genomic regions from sparse interaction data**.  
 Julen Mendieta-Esteban, Marco Di Stefano, David Castillo, Irene Farabella, and Marc A Marti-Renom.  
 https://www.biorxiv.org/content/10.1101/2020.10.11.334847v1.full.pdf  
+  
 from the extraction of the interaction matrix of interest from the BAM file, to matrix normalisation, modelling, and models analysis.  
 
 Intermediate files and additional information are also included.
 
-To start using this Git, enter the "jupyterNotebooks" folder and run the Notebooks inside each sub-directory following the numerical order (Python 2).  
+To start using this Git, enter the "jupyterNotebooks" folder and run with Python 2 the Notebooks inside each sub-directory following the numerical order.  
 
 ## Before running the Notebooks:
 Download the model files and additional data that could not be uploaded to GitHub.  
@@ -26,7 +28,7 @@ wget -O outData.zip https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0 ;
 
 ## Running the Notebooks:  
 ### Using Singularity containers
-In case is needed, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. The actual containers can be downloaded from:   
+Some user might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. The actual containers can be downloaded from:   
 https://www.dropbox.com/sh/uz7iikid2w9wv0d/AADPVGm4dMIiv2OtROEFakEJa?dl=0
 
 To open the Notebooks you can use the following commands with each of them:  
@@ -68,25 +70,37 @@ This repository is organised in a tree directory structure to facilitate the ana
 -Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by adding them in the "models" folder in the same tree directory structure as we state in the "Folder structure" section below. If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they would have a TADbit format model file that will be analysed in the next Notebooks. 
 
 ### Notebook purpose
-01_inputData  
+**01_inputData**  
 ---<ins>01_retrievingBAMfiles.ipynb</ins>: Provides information about how to treat FASQ files to obtain bam files suitable for TADbit  
+  
 ---<ins>02_saveMatrixFiles.ipynb</ins>: Contains the code to both obtain the biases for the PRINT normalisation and create the interaction matrices files 
   
-02_modelling  
+**02_modelling**  
 ---<ins>01_modellingParametersGridSearch.ipynb</ins>: Contains the code to run the optimization step of the modelling in order to select the best combination of input parameters for the final models.   
+  
 ---<ins>02_chooseBestParameters.ipynb</ins>: Contains the code to use the output from the previous Notebook to select the best combination of input parameters for the final models. Depends on data from <ins>01_modellingParametersGridSearch.ipynb</ins>.  
+  
 ---<ins>03_modelling.ipynb</ins>: Contains the code to compute the final set of models. Depends on data from <ins>02_chooseBestParameters.ipynb</ins>.  
   
-03_modelAnalysis  
+**03_modelAnalysis**  
 ---<ins>01_convertTADdynModels_toTADbitModels.ipynb</ins>: Contains the code to convert TADdyn format models to TADbit format.  
+   
 ---<ins>02_clusterModelsEnsemble.ipynb</ins>: Contains the code to cluster the models and store this information to be used in the next Notebooks.  
+  
 ---<ins>03_compareModelMatrices.ipynb</ins>: Contains the code to compute and plot the contact matrices that are inferred from the models.  
+  
 ---<ins>04_distanceBetweenPairsOfParticles.ipynb</ins>: Contains the code to obtain distances between sets of particles of interest and then display them in boxplot (Figure 3C from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins>.  
+  
 ---<ins>05_linePlot.ipynb</ins>: Contains the code to measure distances from a particle of interest with the rest of the particles of the model and to generate the lineal plot that we display in Figure 4A from the manuscript. Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins>.  
+  
 ---<ins>06_dRMSDclusteringOfModelEnsembles.ipynb</ins>: Contains the code to cluster by dRMSD all the models from the same region (comparing even models from different cells) and to display the resulting clustering tree (Figure 3B from the manuscript).   
+  
 ---<ins>07_radialPlot.ipynb</ins>: Contains the code to get the radialPlots (Figure 3D from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins>.  
+  
 ---<ins>08_distanceBtwTranscribedBins.ipynb</ins>: Contains the code to get and display the distances between all the particles containing transcribed genes (Figure 4B from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins>.  
+  
 ---<ins>09_co-occurrenceMatrix.ipynb</ins>: Contains the code to get and display the co-occurrence matrices (Figure 4C-E from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins>.   
+  
 ---<ins>10_communityAnalysis.ipynb</ins>: Contains the code to analyse the communities of genes obtained in <ins>09_co-occurrenceMatrix.ipynb</ins> in terms of distances and expression (Figure 4F,G and Supplementary Figure 6 from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins> and <ins>09_co-occurrenceMatrix.ipynb</ins>.   
 
 
@@ -105,18 +119,26 @@ NOTE: For a matter of consistency the code of the scripts in "codeScripts" is th
 Note: Avoid using '_' in any folder inside or in the root of the location of this repository.  
 
 -"additionalInput" folder contains text files with additional data to be loaded, like enhancer and promoter coordinates, and methylation or gene expression data.  
+  
 -"bamfiles" folder contains one level of subfolders stating the cell ID. Inside ...bamfiles/cellID/ we should store its correspondent sorted .bam file and the associated index .bai file. This repository does not provide any bam file due to the large size of the files.  
+  
 -"code" folder contains sets of python 2 functions that will be using in the Notebooks.  
+  
 -"codeScripts" folder contains the scripts involving the Notebooks from "01_inputData" and "02_modelling" so that these steps can be run in a cluster.  
+  
 -"containers" folder contains the recipes for building the Singularity environments of both TADdyn and TADbit.  
+  
 -"fastTest" folder contains a small interaction matrix to test that the optimisation and modelling steps work well.  
+  
 -"jupyterNotebooks" folder contains the Notebooks used for the modelling and analysis of the pcHi-C datasets.  
+  
 -"matrices" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region defined in the interaction matrix. Inside ...matrices/cellID/regionID/ we will find its correspondent interaction matrix. The interaction matrix file format used in this Notebooks is a tab-delimited text version of the matrix with a number of columns equal to the number of elements delimited by a tab, and a number of rows equal to the number of lines in the file. The naming format of the matrices must follow Matrix[extraIfWanted]_[cellID]_[regionID]_[Chromosome]-[startCoord]-[EndCoord]_[resolution]bp, where:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*extraIfWanted: is any additional text we might want to add after Matrix. It can be left empty  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Chromosome: is the chromosome name of the region as stated in the bam file  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*startCoord: is the starting coordinates of the region stored in the file  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*EndCoord: is the coordinate of the beginning of the last bin included in the matrix. I. E.: If the resolution is 5 kb, and EndCoord is 15000, the matrix would include the bin that goes from 15000 to 19999 (15000 + 4999)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*resolution: is the resolution of the matrix in bp  
+  
 -"models" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region defined in the .models file. Inside ...models/cellID/regionID/ we will find its correspondent ".TADdynDict" or ".models" file. Naming format:  
 [cellID]_[regionID]_C[distanceCutoff]L[lowfreq]U[upfreq]M[maxdist]Res[resolution].[TADdynDict/models]  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*distanceCutoff: is the optimal distance cutoff value that was set in the optimization for the modelling  
@@ -125,7 +147,10 @@ Note: Avoid using '_' in any folder inside or in the root of the location of thi
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*maxdist: is the optimal Maxdist value that was set in the optimization for the modelling  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*resolution: is the resolution of the experiment in bp.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*TADdynDict/models: is the format of the file. "TADdynDict" for TADdyn models and "models" for TADbit models.  
+  
 -"optimization" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region. Inside ...optimization/cellID/regionID/ we will find its correspondent optimization output files, that will be used in <ins>02_chooseBestParameters.ipynb</ins> to define the best modelling parameters per each cell and region combination.  
+  
 -"outData" folder contains the output files generated during the analysis.  
+  
 -"outPlot" folder contains the plot pdf files generated during the analysis.  
 
