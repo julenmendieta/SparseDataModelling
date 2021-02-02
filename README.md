@@ -76,7 +76,8 @@ This repository is organised in a tree directory structure to facilitate the ana
 
 - Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by emptying the "models" folder and including their own files in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then they would need to run the Notebooks inside "03_modelAnalysis". If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>03_modelAnalysis/01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they will have a TADbit format model file that will be analysed in the next Notebooks. 
   
-  
+## Parameters to be modified in the Notebooks
+Every Notebook has a section named “Parameters to modify” that contains all the parameters that must be modified according to the users aim and data. The only Notebook that contains an additional section to be modified is <ins>02_chooseBestParameters.ipynb</ins>, that requires the user in section "Generate file with top parameters" to decide which are the dcutoff and maxdist values that best correlations have shown in the plots.
     
     
     
@@ -115,11 +116,7 @@ This repository is organised in a tree directory structure to facilitate the ana
 - <ins>09_co-occurrenceMatrix.ipynb</ins>: Contains the code to get and display the co-occurrence matrices (Figure 4C-E from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins>.   
   
 - <ins>10_communityAnalysis.ipynb</ins>: Contains the code to analyse the communities of genes obtained in <ins>09_co-occurrenceMatrix.ipynb</ins> in terms of distances and expression (Figure 4F,G and Supplementary Figure 6 from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins> and <ins>09_co-occurrenceMatrix.ipynb</ins>.   
-
-
-## Parameters to be modified in the Notebooks
-Every Notebook has a section named “Parameters to modify” that contains all the parameters that must be modified according to the users aim and data. The only Notebook that contains an additional section to be modified is <ins>02_chooseBestParameters.ipynb</ins>, that requires the user in section "Generate file with top parameters" to decide which are the dcutoff and maxdist values that best correlations have shown before.
-
+  
 ## Testing that the modelling works well
 Users can set as True the variable "runFastTest" in <ins>01_modellingParametersGridSearch.ipynb</ins> and <ins>03_modelling.ipynb</ins> to test in a short time that the code for the modelling is working well.  
 
