@@ -1,10 +1,10 @@
 # Additional information
-Additional information to run the program.  
+Additional information regarding the purpose of each of the Notebooks and the Folder structure and content.  
 ## Notebook purpose
 **01_inputData**  
-- <ins>01_retrievingBAMfiles.ipynb</ins>: Provides information about how to treat FASQ files to obtain bam files suitable for TADbit  
+- <ins>01_retrievingBAMfiles.ipynb</ins>: Provides information about how to treat FASQ files to obtain bam files suitable for TADbit.  
   
-- <ins>02_saveMatrixFiles.ipynb</ins>: Contains the code to both obtain the biases for the PRINT normalisation and create the interaction matrices files 
+- <ins>02_saveMatrixFiles.ipynb</ins>: Contains the code to both obtain the biases for the PRINT normalisation and create the interaction matrices files. 
   
 **02_modelling**  
 - <ins>01_modellingParametersGridSearch.ipynb</ins>: Contains the code to run the optimization step of the modelling in order to select the best combination of input parameters for the final models.   
@@ -57,6 +57,8 @@ Note: Avoid using '_' in any folder inside or in the root of the location of thi
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*startCoord: is the starting coordinates of the region stored in the file  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*EndCoord: is the coordinate of the beginning of the last bin included in the matrix. I. E.: If the resolution is 5 kb, and EndCoord is 15000, the matrix would include the bin that goes from 15000 to 19999 (15000 + 4999)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*resolution: is the resolution of the matrix in bp  
+  
+- "misc" folder contains the Notebooks workflow image displayed in the Readme file.
   
 - "models" folder contains two levels of subfolders. The first one stating the cell ID, and the second one the ID of the region defined in the .models file. Inside ...models/cellID/regionID/ we will find its correspondent ".TADdynDict" or ".models" file. Naming format:  
 [cellID]_[regionID]_C[distanceCutoff]L[lowfreq]U[upfreq]M[maxdist]Res[resolution].[TADdynDict/models]  
