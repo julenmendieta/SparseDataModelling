@@ -69,7 +69,7 @@ This respository contains multiple Notebooks and [scripts](using-a-cluster-compu
   
   
 ## Notebooks workflow
-The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, we would run the Notebooks in the following order provided that we have a bam file as a starting point.  
+The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, and with a BAM file as an starting point, we will run the Notebooks in the following order:  
 01. First we would run with **TADbit** the Notebooks located in "01_inputData
 02. Then we would run with **TADdyn** the Notebooks located in "02_modelling"
 03. Finally we would run with **TADbit** the Notebooks located in "03_modelAnalysis"
@@ -79,14 +79,14 @@ The ordering to run the Notebooks is stated in the numbers at the beginning of t
 
 
 
-This repository is organised in a tree directory structure to facilitate the analysis of the users own data. In this way:  
-- Starting from a bam file: Users can normalise and store the interaction matrices from their own data by adding their bam files into the “bamfiles” folder in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then, they would need to run the Notebooks inside "01_inputData". To ensure that the bam files have the right format, users can follow the instructions provided in <ins>01_inputData/01_retrievingBAMfiles.ipynb</ins>. To get the normalisation biases and the interaction matrices users have to run <ins>01_inputData/02_saveMatrixFiles.ipynb</ins>.  
+As we see from the image above, the repository is organised in a way that facilitates the analysis of the users own data. In this way:  
+1. Starting from a bam file: Users can normalise and store the interaction matrices from their own data by adding their bam files into the “bamfiles” folder. Then, they would need to run the Notebooks inside "01_inputData". To ensure that the bam files have the right format, users can follow the instructions provided in <ins>01_inputData/01_retrievingBAMfiles.ipynb</ins>. To get the normalisation biases and the interaction matrices users have to run <ins>01_inputData/02_saveMatrixFiles.ipynb</ins>.  
 
-- Starting from an interaction matrix file: Users can work with their own interaction matrices by emptying the "matrices" folder and including their own files in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then, they would need to run the Notebooks inside "02_modelling". By running those Notebooks in order, users will optimize, select best parameters, and model their matrices.
+2. Starting from an interaction matrix file: Users can work with their own interaction matrices by emptying the "matrices" folder and including their own files there. Then, they would need to run the Notebooks inside "02_modelling". By running those Notebooks in order, users will optimize, select best parameters, and model their matrices.
 
-- Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by emptying the "models" folder and including their own files in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then, they would need to run the Notebooks inside "03_modelAnalysis". If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>03_modelAnalysis/01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they will have a TADbit format model file that will be analysed in the next Notebooks. 
-  
-
+3. Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by emptying the "models" folder and including their own files. Then, they would need to run the Notebooks inside "03_modelAnalysis". If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>03_modelAnalysis/01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they will have a TADbit format model file that will be analysed in the next Notebooks. 
+   
+At the time to add your own files, please follow the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below.  
     
 &nbsp;&nbsp;    
 &nbsp;&nbsp;
