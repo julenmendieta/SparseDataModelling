@@ -70,16 +70,12 @@ This respository contains multiple Notebooks and [scripts](using-a-cluster-compu
   
 ## Notebooks workflow
 The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, we would run the Notebooks in the following order provided that we have a bam file as a starting point.  
-First:  
-- "01_inputData". All the Notebooks inside have to be executed with TADbit  
+01. First we would run with **TADbit** the Notebooks located in "01_inputData
+02. Then we would run with **TADdyn** the Notebooks located in "02_modelling"
+03. Finally we would run with **TADbit** the Notebooks located in "03_modelAnalysis"
 
-Then:  
-- "02_modelling". All the Notebooks inside have to be executed with TADdyn  
 
-Finally:  
-- "03_modelAnalysis". All the Notebooks inside have to be executed with TADbit  
-
-![alt text](./misc/scriptsFlow.png?raw=true)
+![Notebooks workflow](./misc/scriptsFlow.jpg)
 
 
 This repository is organised in a tree directory structure to facilitate the analysis of the users own data. In this way:  
