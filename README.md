@@ -86,7 +86,7 @@ As we see from the image above, the repository is organised in a way that facili
 
 3. Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by emptying the "models" folder and including their own files. Then, they would need to run the Notebooks inside "03_modelAnalysis". If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>03_modelAnalysis/01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they will have a TADbit format model file that will be analysed in the next Notebooks. 
    
-At the time to add your own files, please follow the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below.  
+At the time to add your own files, please follow the same tree directory structure as we state in the [Folder structure](https://github.com/julenmendieta/SparseDataModelling/blob/main/extraInformation.md#folder-structure-and-content) section below.  
     
 &nbsp;&nbsp;    
 &nbsp;&nbsp;
@@ -94,4 +94,4 @@ At the time to add your own files, please follow the same tree directory structu
 &nbsp;&nbsp;
 &nbsp;&nbsp;
 # Additional information
-Users can get additional information regarding the purpose of each of the Notebooks and the folder structure and content in [here](https://github.com/julenmendieta/SparseDataModelling/blob/main/extraInformation.md).
+Users can get additional information regarding the purpose of each of the Notebooks and the Folder structure and content in [here](https://github.com/julenmendieta/SparseDataModelling/blob/main/extraInformation.md).
