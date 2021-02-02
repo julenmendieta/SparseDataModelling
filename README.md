@@ -25,21 +25,24 @@ Enter into de "SparseDataModelling" folder and run the following code:
 wget -O models.zip https://www.dropbox.com/s/h718iid33lq41hx/models.zip?dl=0 ; unzip -o models.zip   
 wget -O outData.zip https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0 ; unzip -o outData.zip   
 ```
+
+Note: Avoid using '_' in any folder name inside or in the root of the location of this repository in your computer.  
   
-### Programs 
+### Programs  
+This repository relies on some programs for the modelling and analysis steps. Users can choose between downloading a container with them or directly installing them into their computers.  
 ##### Using Singularity containers
-Some users might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the [Singularity](https://singularity.lbl.gov/) container recipes for TADdyn and TADbit are available in the "containers" folder. The actual containers can be downloaded from:   
+Some users might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the [Singularity](https://sylabs.io/) container recipes for TADdyn and TADbit are available in the "containers" folder. To use them, users will need to first [install Singularity](https://sylabs.io/guides/3.6/admin-guide/installation.html) (we do NOT recommend to install Singularity with Conda). The actual containers can be downloaded from:   
 https://www.dropbox.com/sh/uz7iikid2w9wv0d/AADPVGm4dMIiv2OtROEFakEJa?dl=0  
-  
-To open the Notebooks you can use the following commands with each of them:  
+    
+To open the Notebooks users can use the following commands with each of them:  
 TADdyn:  
 `singularity exec singularity_TADdyn.sif jupyter notebook --port=8888 --notebook-dir=/PATH/TO/NOTEBOOKS`  
 TADbit:  
 `singularity exec singularity_TADbit.sif jupyter notebook --port=8888 --notebook-dir=/PATH/TO/NOTEBOOKS` 
   
-Where /PATH/TO/NOTEBOOKS could be the path where the "jupyterNotebooks" folder is located in your computer.
+Where /PATH/TO/NOTEBOOKS could be the path where the "jupyterNotebooks" folder is located in the computer.
 
-##### Installing TADdyn and TADbit in your computer
+##### Installing TADdyn and TADbit in the computer
 TADdyn can be installed following the steps here:  
 https://github.com/3DGenomes/TADdyn  
 TADbit can be installed following the steps here:  
@@ -56,20 +59,28 @@ For TADbit:
 - sklearn  
 
 ## Notebooks ordering and programs used for them
-The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, we would run the Notebooks in the following order if we would have a bam file as a starting point.  
+The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, we would run the Notebooks in the following order provided that we have a bam file as a starting point.  
 First:  
 - "01_inputData". All the Notebooks inside have to be executed with TADbit  
+
 Then:  
 - "02_modelling". All the Notebooks inside have to be executed with TADdyn  
+
 Finally:  
 - "03_modelAnalysis". All the Notebooks inside have to be executed with TADbit  
 
 This repository is organised in a tree directory structure to facilitate the analysis of the users own data. In this way:  
-- Starting from a bam file: Users can normalise and store the interaction matrices from their own data by adding their bam files into the “bamfiles” folder in the same tree directory structure as we state in the "Folder structure" section below. To ensure that the bam files have the right format users can follow the instructions provided in <ins>01_inputData/01_retrievingBAMfiles.ipynb</ins>. To get the normalisation biases and the interaction matrices users have to run <ins>01_inputData/02_saveMatrixFiles.ipynb</ins>.  
+- Starting from a bam file: Users can normalise and store the interaction matrices from their own data by adding their bam files into the “bamfiles” folder in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then they would need to run the Notebooks inside "01_inputData". To ensure that the bam files have the right format, users can follow the instructions provided in <ins>01_inputData/01_retrievingBAMfiles.ipynb</ins>. To get the normalisation biases and the interaction matrices users have to run <ins>01_inputData/02_saveMatrixFiles.ipynb</ins>.  
 
-- Starting from an interaction matrix file: Users can work with their own interaction matrices by emptying the "matrices" folder and including their own files (following the same tree directory structure and file naming as stated in the section "Folder structure").  Then they would need to run in order the Notebooks inside "02_modelling" to optimize, select best parameters, and model their matrices.
+- Starting from an interaction matrix file: Users can work with their own interaction matrices by emptying the "matrices" folder and including their own files in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then they would need to run the Notebooks inside "02_modelling". By running those Notebooks in order, users will optimize, select best parameters, and model their matrices.
 
-- Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by adding them in the "models" folder in the same tree directory structure as we state in the "Folder structure" section below. If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they would have a TADbit format model file that will be analysed in the next Notebooks. 
+- Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by emptying the "models" folder and including their own files in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then they would need to run the Notebooks inside "03_modelAnalysis". If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>03_modelAnalysis/01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they will have a TADbit format model file that will be analysed in the next Notebooks. 
+  
+  
+    
+    
+    
+# Additional information
 
 ## Notebook purpose
 **01_inputData**  
@@ -106,19 +117,19 @@ This repository is organised in a tree directory structure to facilitate the ana
 - <ins>10_communityAnalysis.ipynb</ins>: Contains the code to analyse the communities of genes obtained in <ins>09_co-occurrenceMatrix.ipynb</ins> in terms of distances and expression (Figure 4F,G and Supplementary Figure 6 from the manuscript). Depends on data from <ins>02_clusterModelsEnsemble.ipynb</ins> and <ins>09_co-occurrenceMatrix.ipynb</ins>.   
 
 
-### Parameters to be modified in the Notebooks
+## Parameters to be modified in the Notebooks
 Every Notebook has a section named “Parameters to modify” that contains all the parameters that must be modified according to the users aim and data. The only Notebook that contains an additional section to be modified is <ins>02_chooseBestParameters.ipynb</ins>, that requires the user in section "Generate file with top parameters" to decide which are the dcutoff and maxdist values that best correlations have shown before.
 
-### Testing that the modelling works well
+## Testing that the modelling works well
 Users can set as True the variable "runFastTest" in <ins>01_modellingParametersGridSearch.ipynb</ins> and <ins>03_modelling.ipynb</ins> to test in a short time that the code for the modelling is working well.  
 
 ## Using a cluster to run the modelling
-The most time consuming steps in this repository are the ones involving 01_inputData and 02_modelling. For this reason, some users might want to run them in a cluster so that more resources can be allocated for the task. Hence, the code needed for these steps has been stored in the "codeScripts" folder as a set of scripts that can be executed in the terminal and hence submitted to a job queue.  
+The most time consuming steps in this repository are the ones involving 01_inputData and 02_modelling. For this reason, some users might want to run them in a cluster, so that more resources can be allocated for the task. Hence, the code needed for these steps has been stored in the "codeScripts" folder as a set of scripts that can be executed in the terminal and submitted to a job queue. Users still need to modify some [parameters](#parameters-to-be-modified-in-the-notebooks) present at the beginning of the scripts.
 
-NOTE: For a matter of consistency the code of the scripts in "codeScripts" is the same as the one found in the Notebooks (with minor differences). The only change that users have to note is that the section with the variables to be modified has been moved to the beginning of the script.
+NOTE: For a matter of consistency the code of the scripts in "codeScripts" is the same as the one found in the Notebooks (with minor differences). They only difference regards to the code referring to 02_chooseBestParameters.ipynb, which has been splited into two scripts (02a_chooseBestParameters.py and 02b_storeBestParameters.py) so that all the variables to be modified are easily found.
 
-## Folder structure
-Note: Avoid using '_' in any folder inside or in the root of the location of this repository.  
+## Folder structure and content
+Note: Avoid using '_' in any folder inside or in the root of the location of this repository in your computer.  
 
 - "additionalInput" folder contains text files with additional data to be loaded, like enhancer and promoter coordinates, and methylation or gene expression data.  
   
