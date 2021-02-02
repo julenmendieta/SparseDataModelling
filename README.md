@@ -29,9 +29,9 @@ wget -O outData.zip https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0 ;
 Note: Avoid using '_' in any folder name inside or in the root of the location of this repository in your computer.  
   
 ### Programs  
-This repository relies on some programs for the modelling and analysis steps. Users can choose between downloading a container with them or directly installing them into their computers.  
+This repository relies on some programs for the modelling and analysis steps. Users can choose between downloading a [Singularity](https://sylabs.io/) container with them or directly installing them into their computers.  
 ##### Using Singularity containers
-Some users might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the [Singularity](https://sylabs.io/) container recipes for TADdyn and TADbit are available in the "containers" folder. To use them, users will need to first [install Singularity](https://sylabs.io/guides/3.6/admin-guide/installation.html) (we do NOT recommend to install Singularity with Conda). The actual containers can be downloaded from:   
+Some users might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. To use them, users will need to first [install Singularity](https://sylabs.io/guides/3.6/admin-guide/installation.html) (we do NOT recommend to install Singularity with Conda). The actual containers can be downloaded from:   
 https://www.dropbox.com/sh/uz7iikid2w9wv0d/AADPVGm4dMIiv2OtROEFakEJa?dl=0  
     
 To open the Notebooks users can use the following commands with each of them:  
