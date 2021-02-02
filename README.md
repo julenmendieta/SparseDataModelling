@@ -79,8 +79,11 @@ This repository is organised in a tree directory structure to facilitate the ana
 ## Parameters to be modified in the Notebooks
 Every Notebook has a section named “Parameters to modify” that contains all the parameters that must be modified according to the users aim and data. The only Notebook that contains an additional section to be modified is <ins>02_chooseBestParameters.ipynb</ins>, that requires the user in section "Generate file with top parameters" to decide which are the dcutoff and maxdist values that best correlations have shown in the plots.
     
-    
-    
+&nbsp;&nbsp;    
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;
 # Additional information
 
 ## Notebook purpose
