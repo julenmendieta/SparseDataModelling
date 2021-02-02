@@ -69,15 +69,9 @@ This respository contains multiple Notebooks and [scripts](using-a-cluster-compu
   
   
 ## Notebooks workflow
-The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, and with a BAM file as an starting point, we will run the Notebooks in the following order:  
-01. First we would run with **TADbit** the Notebooks located in "01_inputData
-02. Then we would run with **TADdyn** the Notebooks located in "02_modelling"
-03. Finally we would run with **TADbit** the Notebooks located in "03_modelAnalysis"
-
+The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, and with a BAM file as an starting point, we will run the Notebooks as stated in the workflow below:  
 
 <img src="https://github.com/julenmendieta/SparseDataModelling/blob/main/misc/scriptsFlow.jpeg" width="500" height="400">
-
-
 
 As we see from the image above, the repository is organised in a way that facilitates the analysis of the users own data. In this way:  
 1. Starting from a bam file: Users can normalise and store the interaction matrices from their own data by adding their bam files into the “bamfiles” folder. Then, they would need to run the Notebooks inside "01_inputData". To ensure that the bam files have the right format, users can follow the instructions provided in <ins>01_inputData/01_retrievingBAMfiles.ipynb</ins>. To get the normalisation biases and the interaction matrices users have to run <ins>01_inputData/02_saveMatrixFiles.ipynb</ins>.  
@@ -87,6 +81,8 @@ As we see from the image above, the repository is organised in a way that facili
 3. Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by emptying the "models" folder and including their own files. Then, they would need to run the Notebooks inside "03_modelAnalysis". If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>03_modelAnalysis/01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they will have a TADbit format model file that will be analysed in the next Notebooks. 
    
 At the time to add your own files, please follow the same tree directory structure as we state in the [Folder structure](https://github.com/julenmendieta/SparseDataModelling/blob/main/extraInformation.md#folder-structure-and-content) section below.  
+
+NOTE: if you are using Singularity containers to run the the Notebooks, run the ones located in "01_inputData  and in "03_modelAnalysis" using the container with TADbit, and the ones located in "02_modelling" using the container with TADdyn.
     
 &nbsp;&nbsp;    
 &nbsp;&nbsp;
