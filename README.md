@@ -73,7 +73,7 @@ The ordering to run the Notebooks is stated in the numbers at the beginning of t
 
 <img src="https://github.com/julenmendieta/SparseDataModelling/blob/main/misc/scriptsFlow.jpeg" width="500" height="400">
 
-As we see from the image above, the repository is organised in a way that facilitates the analysis of the users own data. In this way:  
+As we see from the workflow, the repository is organised in a way that facilitates the analysis of the users own data. In this way:  
 1. Starting from a bam file: Users can normalise and store the interaction matrices from their own data by adding their bam files into the “bamfiles” folder. Then, they would need to run the Notebooks inside "01_inputData". To ensure that the bam files have the right format, users can follow the instructions provided in <ins>01_inputData/01_retrievingBAMfiles.ipynb</ins>. To get the normalisation biases and the interaction matrices users have to run <ins>01_inputData/02_saveMatrixFiles.ipynb</ins>.  
 
 2. Starting from an interaction matrix file: Users can work with their own interaction matrices by emptying the "matrices" folder and including their own files there. Then, they would need to run the Notebooks inside "02_modelling". By running those Notebooks in order, users will optimize, select best parameters, and model their matrices.
