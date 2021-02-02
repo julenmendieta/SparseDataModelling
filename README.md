@@ -75,7 +75,8 @@ The ordering to run the Notebooks is stated in the numbers at the beginning of t
 03. Finally we would run with **TADbit** the Notebooks located in "03_modelAnalysis"
 
 
-![Notebooks workflow](./misc/scriptsFlow.jpeg?v=4&s=200)
+<img src="https://github.com/julenmendieta/SparseDataModelling/blob/main/misc/scriptsFlow.jpeg" width="500" height="400">
+
 
 
 This repository is organised in a tree directory structure to facilitate the analysis of the users own data. In this way:  
