@@ -40,7 +40,7 @@ TADdyn:
 TADbit:  
 `singularity exec singularity_TADbit.sif jupyter notebook --port=8888 --notebook-dir=/PATH/TO/NOTEBOOKS` 
   
-Where /PATH/TO/NOTEBOOKS could be the path where the "jupyterNotebooks" folder is located in the computer.
+Where /PATH/TO/NOTEBOOKS is the path where the "jupyterNotebooks" folder is located in the computer.
 
 ##### Installing TADdyn and TADbit in the computer
 TADdyn can be installed following the steps here:  
