@@ -9,30 +9,31 @@ from the extraction of the interaction matrix of interest from the BAM file, to 
 
 Intermediate files and additional information are also included.
 
-To start using this repository, first follow the [installation](#installation) steps, and then run with Python 2 each of the Notebooks located in the "jupyterNotebooks" folder in the [order](#notebooks-ordering-and-programs-used-for-them) stated below. 
+To start using this repository, first follow the [installation](#installation) steps, and then run with Python 2 each of the Notebooks located in the "jupyterNotebooks" folder in the [order](#notebooks-workflow) stated below. 
 
 ## Installation
 ### Repository files:
-First download or clone the repository files to your computer. Since some example files files are too heavy, we have upploaded them into Dropbox. In order to download them, you can follow two approaches:  
+First download or clone the repository files to your computer. Since some example files are too heavy, we have upploaded them to another repository. In order to download them, you can follow two approaches:  
 - Using the browser:  
-Download the following two zip files to the "SparseDataModelling" folder, and unzip them by merging the output "models" and "outData" folders with the existent ones:  
-https://www.dropbox.com/s/h718iid33lq41hx/models.zip?dl=0  
-https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0  
+Download the whole additional data file to the "SparseDataModelling" folder, unzip it, and unzip the models.zip and outData.zip by merging the output "models" and "outData" folders with the existent ones. Then move the .sif files to the containers folder:  
+http://sgt.cnag.cat/3dg/datasets/files/20210201_Mendieta-Esteban_etal_CodeData.zip  
   
 - Using the terminal:  
 Enter into de "SparseDataModelling" folder and run the following code:
 ```
-wget -O models.zip https://www.dropbox.com/s/h718iid33lq41hx/models.zip?dl=0 ; unzip -o models.zip   
-wget -O outData.zip https://www.dropbox.com/s/xsf9g5l8fdw9907/outData.zip?dl=0 ; unzip -o outData.zip   
+wget -O extra.zip http://sgt.cnag.cat/3dg/datasets/files/20210201_Mendieta-Esteban_etal_CodeData.zip ; unzip -o extra.zip
+unzip -o models.zip   
+unzip -o outData.zip   
+mv *sif containers/
 ```
 
 Note: Avoid using '_' in any folder name inside or in the root of the location of this repository in your computer.  
   
-### Programs  
+### Dependencies
 This repository relies on some programs for the modelling and analysis steps. Users can choose between downloading a [Singularity](https://sylabs.io/) container with them or directly installing them into their computers.  
 ##### Using Singularity containers
-Some users might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. To use them, users will need to first [install Singularity](https://sylabs.io/guides/3.6/admin-guide/installation.html) (we do NOT recommend to install Singularity with Conda). The actual containers can be downloaded from:   
-https://www.dropbox.com/sh/uz7iikid2w9wv0d/AADPVGm4dMIiv2OtROEFakEJa?dl=0  
+Some users might want to skip the instalation process, specially in HPCs not directly accessible to the public internet. For those cases, the Singularity container recipes for TADdyn and TADbit are available in the "containers" folder. To use them, users will need to first [install Singularity](https://sylabs.io/guides/3.6/admin-guide/installation.html) (we do NOT recommend to install Singularity with Conda). The actual containers are available inside of the additional data file:   
+http://sgt.cnag.cat/3dg/datasets/files/20210201_Mendieta-Esteban_etal_CodeData.zip  
     
 To open the Notebooks users can use the following commands with each of them:  
 TADdyn:  
@@ -57,8 +58,17 @@ For TADbit:
 - seaborn  
 - fastcluster  
 - sklearn  
+ 
+## Using a cluster computer to run the modelling
+The most time consuming steps in this repository are the ones involving 01_inputData and 02_modelling. For this reason, some users might want to run them in a cluster, so that more resources can be allocated for the task. Hence, the code needed for these steps has been stored in the "codeScripts" folder as a set of scripts that can be executed in the terminal and submitted to a job queue. Users still need to modify some [parameters](#parameters-to-be-modified-in-the-notebooks) present at the beginning of the scripts.
 
-## Notebooks ordering and programs used for them
+NOTE: For a matter of consistency, the code of the scripts in "codeScripts" is the same as the one found in the Notebooks (with minor differences). The only difference regards to the code referring to 02_chooseBestParameters.ipynb, which has been splited into two scripts (02a_chooseBestParameters.py and 02b_storeBestParameters.py) so that all the variables to be modified are easily found.
+
+## Parameters to be modified in the Notebooks
+This respository contains multiple Notebooks and [scripts](using-a-cluster-computer-to-run-the-modelling) to run the main analysis done in the work cited [before](#sparse-data-modelling). Every Notebook has a section named “Parameters to modify” that contains all the parameters that must be modified according to the users aim and data. 
+  
+  
+## Notebooks workflow
 The ordering to run the Notebooks is stated in the numbers at the beginning of the folders in "jupyterNotebooks". The same rule is valid for the Notebooks located inside. In this way, we would run the Notebooks in the following order provided that we have a bam file as a starting point.  
 First:  
 - "01_inputData". All the Notebooks inside have to be executed with TADbit  
@@ -69,6 +79,9 @@ Then:
 Finally:  
 - "03_modelAnalysis". All the Notebooks inside have to be executed with TADbit  
 
+![alt text](./misc/scriptsFlow.png?raw=true)
+
+
 This repository is organised in a tree directory structure to facilitate the analysis of the users own data. In this way:  
 - Starting from a bam file: Users can normalise and store the interaction matrices from their own data by adding their bam files into the “bamfiles” folder in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then, they would need to run the Notebooks inside "01_inputData". To ensure that the bam files have the right format, users can follow the instructions provided in <ins>01_inputData/01_retrievingBAMfiles.ipynb</ins>. To get the normalisation biases and the interaction matrices users have to run <ins>01_inputData/02_saveMatrixFiles.ipynb</ins>.  
 
@@ -76,8 +89,7 @@ This repository is organised in a tree directory structure to facilitate the ana
 
 - Starting from a TADdyn or TADbit models file. Users can analyse their own TADdyn or TADbit format models by emptying the "models" folder and including their own files in the same tree directory structure as we state in the [Folder structure](#folder-structure-and-content) section below. Then, they would need to run the Notebooks inside "03_modelAnalysis". If they would add a TADdyn model they would need to first transform it to TADbit model format by running <ins>03_modelAnalysis/01_convertTADdynModels_toTADbitModels.ipynb</ins>. After this, they will have a TADbit format model file that will be analysed in the next Notebooks. 
   
-## Parameters to be modified in the Notebooks
-Every Notebook has a section named “Parameters to modify” that contains all the parameters that must be modified according to the users aim and data. The only Notebook that contains an additional section to be modified is <ins>02_chooseBestParameters.ipynb</ins>, that requires the user in section "Generate file with top parameters" to decide which are the dcutoff and maxdist values that best correlations have shown in the plots.
+
     
 &nbsp;&nbsp;    
 &nbsp;&nbsp;
@@ -122,11 +134,6 @@ Every Notebook has a section named “Parameters to modify” that contains all 
   
 ## Testing that the modelling works well
 Users can set as True the variable "runFastTest" in <ins>01_modellingParametersGridSearch.ipynb</ins> and <ins>03_modelling.ipynb</ins> to test in a short time that the code for the modelling is working well.  
-
-## Using a cluster to run the modelling
-The most time consuming steps in this repository are the ones involving 01_inputData and 02_modelling. For this reason, some users might want to run them in a cluster, so that more resources can be allocated for the task. Hence, the code needed for these steps has been stored in the "codeScripts" folder as a set of scripts that can be executed in the terminal and submitted to a job queue. Users still need to modify some [parameters](#parameters-to-be-modified-in-the-notebooks) present at the beginning of the scripts.
-
-NOTE: For a matter of consistency, the code of the scripts in "codeScripts" is the same as the one found in the Notebooks (with minor differences). The only difference regards to the code referring to 02_chooseBestParameters.ipynb, which has been splited into two scripts (02a_chooseBestParameters.py and 02b_storeBestParameters.py) so that all the variables to be modified are easily found.
 
 ## Folder structure and content
 Note: Avoid using '_' in any folder inside or in the root of the location of this repository in your computer.  
