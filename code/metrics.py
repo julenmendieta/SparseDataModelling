@@ -8,6 +8,7 @@ try:
     from pytadbit                     import HiC_data
     from pytadbit.parsers.hic_bam_parser import filters_to_bin
     from sklearn.metrics import calinski_harabaz_score
+    from pysam                           import AlignmentFile
 except:
     print('TADbit libraries not loaded, is ok if working with TADdyn alone')
 import os, sys
@@ -18,7 +19,6 @@ from scipy.cluster.hierarchy import linkage as linkage_sci
 from collections import defaultdict
 import warnings
 # norm part
-from pysam                           import AlignmentFile
 from collections                     import OrderedDict
 import cPickle as pickle
 
