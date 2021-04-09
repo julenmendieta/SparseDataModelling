@@ -46,6 +46,9 @@ Where /PATH/TO/NOTEBOOKS is the path where the "jupyterNotebooks" folder is loca
 ##### Installing TADdyn and TADbit in the computer
 TADdyn can be installed following the steps here:  
 https://github.com/3DGenomes/TADdyn  
+\*Please, remember to set the LAMMPS exception flag in the [LAMMPSfolder]/src/Makefile.package file to:  
+&nbsp;&nbsp;&nbsp;&nbsp;LMP_INC = -DLAMMPS_EXCEPTIONS  
+
 TADbit can be installed following the steps here:  
 https://github.com/3DGenomes/TADbit  
   
